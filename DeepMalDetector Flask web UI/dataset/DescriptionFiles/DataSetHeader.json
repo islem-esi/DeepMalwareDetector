@@ -1,0 +1,44 @@
+{
+  "column-dimension": {
+    "headers": 52,
+    "4-grams": 28874,
+    "strings": 30779,
+    "opcodes": 4890,
+    "functions-dll": 6709,
+    "sequences": 12800000,
+    "images": 100000,
+    "total": 69570
+  },
+  "column-encoded": {
+    "headers": 6,
+    "4-grams": 1804,
+    "strings": 611,
+    "opcodes": 800,
+    "functions-dll": 1024,
+    "sequences": 128,
+    "images": 512,
+    "total": 1850
+  },
+  "samples-train": {
+    "mals": {
+      "total": 14760,
+      "2019": 14760
+    },
+    "legits": {
+      "total": 11000,
+      "XP": 0,
+      "W7": 400,
+      "W10": 8500,
+      "R2": 1000
+    }
+  },
+  "samples-test": {
+    "mals": {
+        "total": 9000,
+        "2018": 3000,
+        "2019": 3000,
+        "2020": 3000
+    },
+    "legits": 1000
+  }
+}
