@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>DeepNet for Malware Analysis</title>
+	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+	<link rel="icon" href="../../../static/assets/img/icon.ico" type="image/x-icon"/>
+	
+	<!-- Fonts and icons -->
+	<script src="../../../static/assets/js/plugin/webfont/webfont.min.js"></script>
+	<script>
+		WebFont.load({
+			google: {"families":["Lato:300,400,700,900"]},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../../../static/assets/css/fonts.min.css']},
+			active: function() {
+				sessionStorage.fonts = true;
+			}
+		});
+	</script>
+
+	<!-- CSS Files -->
+	<link rel="stylesheet" href="../../../static/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../../static/assets/css/atlantis.min.css">
+	<!-- CSS Just for demo purpose, don't include it in your project -->
+	<link rel="stylesheet" href="../../../static/assets/css/demo.css">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="main-header">
+			<!-- Logo Header -->
+			<div class="logo-header" data-background-color="blue">
+				
+				<a href="../index.html" class="logo">
+					<img src="../../../static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand">
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon">
+						<i class="icon-menu"></i>
+					</span>
+				</button>
+				<button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+				<div class="nav-toggle">
+					<button class="btn btn-toggle toggle-sidebar">
+						<i class="icon-menu"></i>
+					</button>
+				</div>
+			</div>
+			<!-- End Logo Header -->
+
+			<!-- Navbar Header -->
+			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+				
+				<div class="container-fluid">
+					<div class="collapse" id="search-nav">
+						<form class="navbar-left navbar-form nav-search mr-md-3">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<button type="submit" class="btn btn-search pr-1">
+										<i class="fa fa-search search-icon"></i>
+									</button>
+								</div>
+								<label>
+									<input type="text" placeholder="Search ..." class="form-control">
+								</label>
+							</div>
+						</form>
+					</div>
+					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+						<li class="nav-item toggle-nav-search hidden-caret">
+							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
+								<i class="fa fa-search"></i>
+							</a>
+						</li>
+						<li class="nav-item dropdown hidden-caret">
+							<a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+								<i class="fas fa-layer-group"></i>
+							</a>
+							<div class="dropdown-menu quick-actions quick-actions-info animated fadeIn">
+								<div class="quick-actions-header">
+									<span class="title mb-1">Quick Actions</span>
+									<span class="subtitle op-8">Shortcuts</span>
+								</div>
+								<div class="quick-actions-scroll scrollbar-outer">
+									<div class="quick-actions-items">
+										<div class="row m-0">
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="flaticon-file-1"></i>
+													<span class="text">Generated Report</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="flaticon-database"></i>
+													<span class="text">Create New Database</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="flaticon-pen"></i>
+													<span class="text">Create New Post</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="flaticon-interface-1"></i>
+													<span class="text">Create New Task</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="flaticon-list"></i>
+													<span class="text">Completed Tasks</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="flaticon-file"></i>
+													<span class="text">Create New Invoice</span>
+												</div>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<!-- End Navbar -->
+		</div>
+		<!-- Sidebar -->
+		<div class="sidebar sidebar-style-2">
+			
+			<div class="sidebar-wrapper scrollbar scrollbar-inner">
+				<div class="sidebar-content">
+					<ul class="nav nav-primary">
+						<li class="nav-item">
+							<a href="{{ '/' }}" class="collapsed" aria-expanded="false">
+								<i class="fas fa-home"></i>
+								<p>Analysis board</p>
+								<span class="caret"></span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{ '/data_set' }}">
+								<i class="fas fa-table"></i>
+								<p>DataSet</p>
+								<span class="caret"></span>
+							</a>
+						</li>
+						<li class="nav-item active submenu">
+							<a  href="#">
+								<i class="far fa-chart-bar"></i>
+								<p>Learning board</p>
+								<span class="caret"></span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{ '/model' }}">
+								<i class="fas fa-desktop"></i>
+								<p>Model</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="main-panel">
+			<div class="content">
+				<div class="page-inner">
+                    <div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-head-row">
+										<div class="card-title">SAE Learning</div>
+										<div class="card-tools">
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													Select param
+												</button>
+												<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" onclick="" id="sae_epoc">Epochs param</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+                                    <div id="sae_div">
+                                      <div id="sae_epoc_ch" style="display: block;">
+	                                        <canvas id="cnv_sae_epoc" ></canvas>
+                                      </div>
+                                        <div id="sae_cap_ch" style="display: none;">
+	                                        <canvas id="cnv_sae_cap"></canvas>
+                                      </div>
+                                        <div id="sae_lay_ch" style="display: none;">
+	                                        <canvas id="cnv_sae_lay"></canvas>
+                                      </div>
+                                    </div>
+								</div>
+							</div>
+						</div>
+                        <div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-head-row">
+										<div class="card-title">RNN Learning</div>
+										<div class="card-tools">
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													Select param
+												</button>
+												<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_rnn(event)" id="rnn_epoc">Error by epochs</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_rnn(event)" id="rnn_acc">Acc by epochs</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_rnn(event)" id="rnn_cap">Error by capacity</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_rnn(event)" id="rnn_lay">Error by layers</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_rnn(event)" id="rnn_seq">Error by sequence length</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+                                    <div id="rnn_div">
+                                        <div id="rnn_epoc_ch" style="display: block;">
+	                                        <canvas id="cnv_rnn_epoc"></canvas>
+                                      </div>
+                                        <div id="rnn_acc_ch" style="display: none;">
+	                                        <canvas id="cnv_rnn_acc"></canvas>
+                                      </div>
+                                        <div id="rnn_cap_ch" style="display: none;">
+	                                        <canvas id="cnv_rnn_cap"></canvas>
+                                      </div>
+                                        <div id="rnn_lay_ch" style="display: none;">
+	                                        <canvas id="cnv_rnn_lay"></canvas>
+                                      </div>
+                                        <div id="rnn_seq_ch" style="display: none;">
+	                                        <canvas id="cnv_rnn_seq"></canvas>
+                                      </div>
+                                    </div>
+								</div>
+							</div>
+						</div>
+                        <div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-head-row">
+										<div class="card-title">CNN Learning</div>
+										<div class="card-tools">
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													Select param
+												</button>
+												<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_cnn(event)" id="cnn_epoc">Error by epochs</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_cnn(event)" id="cnn_acc">Accuracy by epochs</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_cnn(event)" id="cnn_ker">Error by filters</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_cnn(event)" id="cnn_lay">Error by layers</a>
+                                                    <a class="dropdown-item" href="#" onclick="show_chart_cnn(event)" id="cnn_Dropout">Error by image size</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+                                    <div id="cnn_div">
+                                       <div id="cnn_epoc_ch" style="display: block;">
+	                                        <canvas id="cnv_cnn_epoc"></canvas>
+                                      </div>
+                                        <div id="cnn_acc_ch" style="display: none;">
+	                                        <canvas id="cnv_cnn_acc"></canvas>
+                                      </div>
+                                        <div id="cnn_ker_ch" style="display: none;">
+	                                        <canvas id="cnv_cnn_ker"></canvas>
+                                      </div>
+                                        <div id="cnn_lay_ch" style="display: none;">
+	                                        <canvas id="cnv_cnn_lay"></canvas>
+                                      </div>
+                                        <div id="cnn_img_ch" style="display: none;">
+	                                        <canvas id="cnv_cnn_img"></canvas>
+                                      </div>
+                                    </div>
+								</div>
+							</div>
+						</div>
+                        <div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-head-row">
+										<div class="card-title">Classification Learning</div>
+										<div class="card-tools">
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													Select param
+												</button>
+												<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" onclick="" id="cnn_epoc">Epochs</a>
+                                                    <a class="dropdown-item" href="#" onclick="" id="cnn_cap">Capacity</a>
+                                                    <a class="dropdown-item" href="#" onclick="" id="cnn_lay">Layers</a>
+                                                    <a class="dropdown-item" href="#" onclick="" id="cnn_Dropout">ROC</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+                                    <div id="grams_f">
+                                        <div id="MyDiv" style="width: 70%; margin: 0 auto" >
+
+                                        </div>
+                                        <div id="MyDiv1" style="display: inline-block; width: 49%; margin: 0 auto;">
+
+                                        </div>
+                                        <div id="MyDiv2" style="display: inline-block; width: 49%; margin: 0 auto;">
+
+                                        </div>
+                                    </div>
+                                    <div id="dlls_div" style="display: none">
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="container-fluid">
+					<nav class="pull-left">
+						<ul class="nav">
+							<li class="nav-item">
+								<a class="nav-link" href="#">
+									Islem BOUZENIA
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">
+									ESI
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">
+									SIQ
+								</a>
+							</li>
+						</ul>
+					</nav>
+					<div class="copyright ml-auto">
+                        2020
+					</div>
+				</div>
+			</footer>
+		</div>
+		
+		<!-- Custom template | don't include it in your project! -->
+		<div class="custom-template">
+			<div class="title">Settings</div>
+			<div class="custom-content">
+				<div class="switcher">
+					<div class="switch-block">
+						<h4>Logo Header</h4>
+						<div class="btnSwitch">
+							<button type="button" class="changeLogoHeaderColor" data-color="dark"></button>
+							<button type="button" class="selected changeLogoHeaderColor" data-color="blue"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="purple"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="light-blue"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="green"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="orange"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="red"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="white"></button>
+							<br/>
+							<button type="button" class="changeLogoHeaderColor" data-color="dark2"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="blue2"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="purple2"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="light-blue2"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="green2"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="orange2"></button>
+							<button type="button" class="changeLogoHeaderColor" data-color="red2"></button>
+						</div>
+					</div>
+					<div class="switch-block">
+						<h4>Navbar Header</h4>
+						<div class="btnSwitch">
+							<button type="button" class="changeTopBarColor" data-color="dark"></button>
+							<button type="button" class="changeTopBarColor" data-color="blue"></button>
+							<button type="button" class="changeTopBarColor" data-color="purple"></button>
+							<button type="button" class="changeTopBarColor" data-color="light-blue"></button>
+							<button type="button" class="changeTopBarColor" data-color="green"></button>
+							<button type="button" class="changeTopBarColor" data-color="orange"></button>
+							<button type="button" class="changeTopBarColor" data-color="red"></button>
+							<button type="button" class="changeTopBarColor" data-color="white"></button>
+							<br/>
+							<button type="button" class="changeTopBarColor" data-color="dark2"></button>
+							<button type="button" class="selected changeTopBarColor" data-color="blue2"></button>
+							<button type="button" class="changeTopBarColor" data-color="purple2"></button>
+							<button type="button" class="changeTopBarColor" data-color="light-blue2"></button>
+							<button type="button" class="changeTopBarColor" data-color="green2"></button>
+							<button type="button" class="changeTopBarColor" data-color="orange2"></button>
+							<button type="button" class="changeTopBarColor" data-color="red2"></button>
+						</div>
+					</div>
+					<div class="switch-block">
+						<h4>Sidebar</h4>
+						<div class="btnSwitch">
+							<button type="button" class="selected changeSideBarColor" data-color="white"></button>
+							<button type="button" class="changeSideBarColor" data-color="dark"></button>
+							<button type="button" class="changeSideBarColor" data-color="dark2"></button>
+						</div>
+					</div>
+					<div class="switch-block">
+						<h4>Background</h4>
+						<div class="btnSwitch">
+							<button type="button" class="changeBackgroundColor" data-color="bg2"></button>
+							<button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
+							<button type="button" class="changeBackgroundColor" data-color="bg3"></button>
+							<button type="button" class="changeBackgroundColor" data-color="dark"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="custom-toggle">
+				<i class="flaticon-settings"></i>
+			</div>
+		</div>
+		<!-- End Custom template -->
+	</div>
+	<!--   Core JS Files   -->
+	<script src="../../../static/assets/js/core/jquery.3.2.1.min.js"></script>
+	<script src="../../../static/assets/js/core/popper.min.js"></script>
+	<script src="../../../static/assets/js/core/bootstrap.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="../../../static/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../../../static/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+	<!-- Chart JS -->
+	<script src="../../../static/assets/js/plugin/chart.js/chart.min.js"></script>
+	
+	<!-- jQuery Scrollbar -->
+	<script src="../../../static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<!-- Atlantis JS -->
+	<script src="../../../static/assets/js/atlantis.min.js"></script>
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="../../../static/assets/js/setting-demo2.js"></script>
+	<script>
+
+        //SAE
+		var multipleLineChart = document.getElementById('cnv_sae_epoc').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+		datasets: [{
+			label: "Learning Error MSE",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [4.5023e-04, 2.2417e-04, 1.9212e-04, 1.7783e-04, 1.7152e-04, 1.6273e-04, 1.6273e-04, 1.6115e-04, 1.6104e-04, 1.6107e-04, 1.6113e-04, 1.5967e-04, 1.5933e-04, 1.5923e-04, 1.5926e-04, 1.5936e-04, 1.5946e-04, 1.5916e-04, 1.5910e-04, 1.5910e-04, 1.5909e-04, 1.5910e-04, 1.5911e-04, 1.5914e-04],
+		},{
+			label: "Generalization Error MSE",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [6.7081e-05, 5.2343e-05, 5.0575e-05, 4.9713e-05, 4.9460e-05, 4.9270e-05, 4.9256e-05, 4.9246e-05, 4.9235e-05, 4.9244e-05, 4.9235e-05, 4.9244e-05, 4.9245e-05, 4.9231e-05, 4.9233e-05, 4.9236e-05, 4.9246e-05, 4.9228e-05, 4.9229e-05, 4.9227e-05, 4.9228e-05, 4.9220e-05, 4.9219e-05, 4.9228e-05]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+    //RNN
+    var multipleLineChart = document.getElementById('cnv_rnn_epoc').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
+		datasets: [{
+			label: "Learning Error MSE",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.2858655471989983, 0.21268561528732902, 0.19691106887491125, 0.18477591628400902, 0.1779501318291614, 0.1695932800267872, 0.16473133532624495, 0.15881073736642537, 0.15156178748231186, 0.1470119230132354, 0.14344918152721306, 0.1398834851315147, 0.13411848196983336, 0.13073823845010055, 0.125720262867526, 0.12347248234184165, 0.12054231065825412, 0.11482082857332732, 0.11246978039992483, 0.10932506432094072, 0.10577639830049715, 0.10375801762781645, 0.09868845953690378, 0.09725755014984232, 0.0937150789794169, 0.09000856447094366, 0.08987395883924083, 0.08741013258381894, 0.08483218440444847, 0.0827111703126054, 0.07909509139939358, 0.0772509006638276, 0.07714428141085725, 0.07342414892378606, 0.07269869483081919, 0.06984128991490916, 0.07048911107872662, 0.0679129031708366, 0.06574068592724047, 0.06303667592092564, 0.06357664980919737, 0.06030198385527259, 0.05998312456356852, 0.05777998286830752, 0.05863165219269301, 0.05637747930790249, 0.05459745553480951, 0.051597582653949134, 0.05127218171891413, 0.05115790760611233]
+        },{
+			label: "Generalization Error MSE",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.2381566404502839, 0.18392219656789677, 0.20722510376423597, 0.1788586301188916, 0.21861899673081933, 0.1544750876178965, 0.14181925704330207, 0.22576698157787323, 0.14439313552938401, 0.12124086117576808, 0.12314617811432107, 0.20376694103367626, 0.2047485374726355, 0.10512372634410858, 0.4118592575058341, 0.24942022217903287, 0.15029611534979195, 0.1395514254368376, 0.09424351430148817, 0.24545231779525056, 0.2837052404713817, 0.17480957790100948, 0.1305797180861235, 0.1116678407038562, 0.05238494155956431, 0.24063218171097106, 0.24192956781294198, 0.11049657865912886, 0.08026687788001146, 0.10731395903668598, 0.30438214177282064, 0.17722958561790292, 0.217349618870602, 0.19809797625647624, 0.26193754357834115, 0.113378063333364845, 0.15079163543600588, 0.2580392148607265, 0.19013230391824618, 0.16063131533318085, 0.14283983705284046, 0.1431565800708585, 0.13026497925141596, 0.1963971637283595, 0.1449784614916891, 0.104420931245399, 0.0985820109848515, 0.09504062395880548, 0.10799800501078133, 0.09645240233864752]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+    var multipleLineChart = document.getElementById('cnv_rnn_acc').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
+		datasets: [{
+			label: "Learning Bin Accu",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.8944737, 0.9129579, 0.9201263, 0.9255158, 0.92782104, 0.9304316, 0.9330842, 0.9353684, 0.9385158, 0.9402105, 0.9428421, 0.9440737, 0.9461158, 0.94718945, 0.95007366, 0.95090526, 0.95221055, 0.95456845, 0.9555474, 0.95671576, 0.9586421, 0.95954734, 0.96227366, 0.9618105, 0.9642842, 0.9653263, 0.96558946, 0.96690524, 0.9679579, 0.96918947, 0.97006315, 0.9711895, 0.97108424, 0.9728, 0.97278947, 0.9744, 0.97417897, 0.97506315, 0.97562104, 0.9772421, 0.9770526, 0.97834736, 0.97853684, 0.9794, 0.9785158, 0.9804, 0.9809474, 0.9819263, 0.9820842, 0.9822842]
+            },{
+			label: "Generalization Bin Accu",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.9218000173568726, 0.9480000138282776, 0.9309999942779541, 0.9467999935150146, 0.9222000241279602, 0.954200029373169, 0.9577999711036682, 0.9110000133514404, 0.954200029373169, 0.9254000186920166, 0.9466000199317932, 0.9236000180244446, 0.920199990272522, 0.9488000273704529, 0.8438000082969666, 0.9017999768257141, 0.9431999921798706, 0.9495999813079834, 0.9300000071525574, 0.9056000113487244, 0.909600019454956, 0.9386000037193298, 0.8838000297546387, 0.9290000200271606, 0.9204000234603882, 0.9300000166893005, 0.9233999943733215, 0.9107999897003174, 0.9269999957084656, 0.9579999828338623, 0.9274000215530396, 0.9355999827384949, 0.9279999732971191, 0.9319999814033508, 0.9136000275611877, 0.9377999901771545, 0.9679999732971191, 0.8871999979019165, 0.9399999976158142, 0.9400000166893005, 0.9247999787330627, 0.9236000180244446, 0.999399995803833, 0.9079999923706055, 0.9518000173568726, 0.9211999773979187, 0.9426000118255615, 0.9437999725341797, 0.9799999976158142, 0.9623999786376953]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+    var multipleLineChart = document.getElementById('cnv_rnn_cap').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [2,4,8,16,32,64,92,128,192,256,512],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [3.651, 3.256, 2.46, 1.98, 1.67, 0.984, 0.524, 0.18, 0.228, 0.89, 1.78]
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [2.56, 2.40, 2.12, 2.30, 1.95, 1.2, 0.57, 0.23, 0.46, 1.2, 3.4]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+    var multipleLineChart = document.getElementById('cnv_rnn_lay').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [1, 2, 3, 4, 5],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.45, 0.26, 0.11, 0.40, 0.8]
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.6, 0.31, 0.14, 0.64, 1.3]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+    var multipleLineChart = document.getElementById('cnv_rnn_seq').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.01, 0.05, 0.5, 0.8, 0.10, 0.11, 0.13, 0.29, 0.94, 2.4]
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.78, 0.65, 0.49, 0.52, 0.32, 0.19, 0.16, 0.41, 1.13, 2.9]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+
+    function show_chart_rnn(e) {
+            e.preventDefault();
+            let id = $(`#${e.target.id}`).html();
+
+            if(id == 'Error by epochs'){
+                $('#rnn_epoc_ch').attr('style', 'display: block');
+                $('#rnn_cap_ch').attr('style', 'display: none');
+                $('#rnn_lay_ch').attr('style', 'display: none');
+                $('#rnn_seq_ch').attr('style', 'display: none');
+                $('#rnn_acc_ch').attr('style', 'display: none');
+            }else if(id == 'Acc by epochs'){
+                 $('#rnn_epoc_ch').attr('style', 'display: none');
+                $('#rnn_cap_ch').attr('style', 'display: none');
+                $('#rnn_lay_ch').attr('style', 'display: none');
+                $('#rnn_seq_ch').attr('style', 'display: none');
+                $('#rnn_acc_ch').attr('style', 'display: block');
+            }else if(id == 'Error by capacity'){
+                $('#rnn_epoc_ch').attr('style', 'display: none');
+                $('#rnn_cap_ch').attr('style', 'display: block');
+                $('#rnn_lay_ch').attr('style', 'display: none');
+                $('#rnn_seq_ch').attr('style', 'display: none');
+                $('#rnn_acc_ch').attr('style', 'display: none');
+            }else if(id == 'Error by layers'){
+                $('#rnn_epoc_ch').attr('style', 'display: none');
+                $('#rnn_cap_ch').attr('style', 'display: none');
+                $('#rnn_lay_ch').attr('style', 'display: block');
+                $('#rnn_seq_ch').attr('style', 'display: none');
+                $('#rnn_acc_ch').attr('style', 'display: none');
+            }else if(id == 'Error by sequence length'){
+                $('#rnn_epoc_ch').attr('style', 'display: none');
+                $('#rnn_cap_ch').attr('style', 'display: none');
+                $('#rnn_lay_ch').attr('style', 'display: none');
+                $('#rnn_seq_ch').attr('style', 'display: block');
+                $('#rnn_acc_ch').attr('style', 'display: none');
+            }
+            }
+
+      //cnn
+
+    var multipleLineChart = document.getElementById('cnv_cnn_epoc').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [1,2,3,4,5,6,7,8,9,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.6162, 0.5152, 0.4735, 0.4611, 0.4326, 0.4185, 0.4154, 0.4028, 0.3969, 0.3882, 0.3589, 0.3421, 0.3298, 0.3257, 0.3138, 0.3119, 0.3020, 0.2989, 0.2933, 0.2896, 0.2855, 0.2835, 0.2844, 0.2755, 0.2748, 0.2679, 0.2702, 0.2628],
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.4992, 0.2669, 0.3869, 0.3965, 0.4211, 0.3226, 0.4520, 0.3485, 0.3377, 0.2826, 0.3241, 0.2825, 0.3428, 0.2968, 0.2704, 0.3084, 0.1785, 0.2346, 0.2647, 0.2521, 0.2476, 0.2771, 0.1930, 0.2824, 0.3422, 0.2564, 0.2251, 0.2462]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+    var multipleLineChart = document.getElementById('cnv_cnn_ker').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [2, 4, 8, 16, 32, 64, 128],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.6729, 0.7741, 0.7930, 0.8027, 0.8202, 0.8270, 0.8283, 0.8330, 0.8368, 0.8388, 0.8494, 0.8558, 0.8609, 0.8615, 0.8656, 0.8660, 0.8701, 0.8715, 0.8741, 0.8761, 0.8778, 0.8784, 0.8784, 0.8819, 0.8817, 0.8847, 0.8838, 0.8869]
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.8522, 0.9082, 0.8512, 0.8475, 0.8276, 0.8660, 0.8206, 0.8545, 0.8655, 0.8807, 0.8656, 0.8857, 0.8733, 0.8779, 0.8896, 0.8730, 0.9264, 0.9150, 0.8990, 0.9112, 0.9034, 0.8910, 0.9217, 0.8992, 0.8605, 0.8927, 0.9163, 0.9247]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+       var multipleLineChart = document.getElementById('cnv_cnn_acc').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [1,2,3,4,5,6,7,8,9,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.6729, 0.7741, 0.7930, 0.8027, 0.8202, 0.8270, 0.8283, 0.8330, 0.8368, 0.8388, 0.8494, 0.8558, 0.8609, 0.8615, 0.8656, 0.8660, 0.8701, 0.8715, 0.8741, 0.8761, 0.8778, 0.8784, 0.8784, 0.8819, 0.8817, 0.8847, 0.8838, 0.8869]
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.8522, 0.9082, 0.8512, 0.8475, 0.8276, 0.8660, 0.8206, 0.8545, 0.8655, 0.8807, 0.8656, 0.8857, 0.8733, 0.8779, 0.8896, 0.8730, 0.9264, 0.9150, 0.8990, 0.9112, 0.9034, 0.8910, 0.9217, 0.8992, 0.8605, 0.8927, 0.9163, 0.9247]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+    var multipleLineChart = document.getElementById('cnv_cnn_lay').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: [1, 2, 3, 4, 5],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.61, 0.45, 0.42, 0.46, 0.57]
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [0.58, 0.42, 0.39, 0.51, 0.65]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+     var multipleLineChart = document.getElementById('cnv_cnn_img').getContext('2d');
+    var myMultipleLineChart = new Chart(multipleLineChart, {
+	type: 'line',
+	data: {
+		labels: ['16*16', '32*32', '64*64', '128*128', '256*256'],
+		datasets: [{
+			label: "Learning Error",
+			borderColor: "#1d7af3",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#1d7af3",
+			pointBorderWidth: 2,
+			pointHoverRadius: 4,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [1.2, 0.8, 0.4, 0.41, 0.92]
+        },{
+			label: "Generalization Error",
+			borderColor: "#59d05d",
+			pointBorderColor: "#FFF",
+			pointBackgroundColor: "#59d05d",
+			pointBorderWidth: 0,
+			pointHoverRadius: 0,
+			pointHoverBorderWidth: 1,
+			pointRadius: 0,
+			backgroundColor: 'transparent',
+			fill: true,
+			borderWidth: 2,
+			data: [1.01, 0.63, 0.38, 0.35, 1.13]
+		}]
+	},
+	options : {
+		responsive: true,
+		maintainAspectRatio: true,
+		legend: {
+			position: 'top',
+		},
+		tooltips: {
+			bodySpacing: 4,
+			mode:"nearest",
+			intersect: 0,
+			position:"nearest",
+			xPadding:10,
+			yPadding:10,
+			caretPadding:10
+		},
+		layout:{
+			padding:{left:15,right:15,top:15,bottom:15}
+		}
+	}
+});
+
+    function show_chart_cnn(e) {
+            e.preventDefault();
+            let id = $(`#${e.target.id}`).html();
+
+            if(id == 'Error by epochs'){
+                $('#cnn_epoc_ch').attr('style', 'display: block');
+                $('#cnn_ker_ch').attr('style', 'display: none');
+                $('#cnn_lay_ch').attr('style', 'display: none');
+                $('#cnn_img_ch').attr('style', 'display: none');
+                $('#cnn_acc_ch').attr('style', 'display: none');
+            }else if(id == 'Accuracy by epochs'){
+                 $('#cnn_epoc_ch').attr('style', 'display: none');
+                $('#cnn_ker_ch').attr('style', 'display: none');
+                $('#cnn_lay_ch').attr('style', 'display: none');
+                $('#cnn_img_ch').attr('style', 'display: none');
+                $('#cnn_acc_ch').attr('style', 'display: block');
+            }else if(id == 'Error by filters'){
+                $('#cnn_epoc_ch').attr('style', 'display: none');
+                $('#cnn_ker_ch').attr('style', 'display: block');
+                $('#cnn_lay_ch').attr('style', 'display: none');
+                $('#cnn_img_ch').attr('style', 'display: none');
+                $('#cnn_acc_ch').attr('style', 'display: none');
+            }else if(id == 'Error by layers'){
+                $('#cnn_epoc_ch').attr('style', 'display: none');
+                $('#cnn_ker_ch').attr('style', 'display: none');
+                $('#cnn_lay_ch').attr('style', 'display: block');
+                $('#cnn_img_ch').attr('style', 'display: none');
+                $('#cnn_acc_ch').attr('style', 'display: none');
+            }else if(id == 'Error by image size'){
+                $('#cnn_epoc_ch').attr('style', 'display: none');
+                $('#cnn_ker_ch').attr('style', 'display: none');
+                $('#cnn_lay_ch').attr('style', 'display: none');
+                $('#cnn_img_ch').attr('style', 'display: block');
+                $('#cnn_acc_ch').attr('style', 'display: none');
+            }
+            }
+
+	</script>
+
+
+</body>
+</html>
